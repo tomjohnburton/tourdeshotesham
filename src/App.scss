@@ -1,5 +1,24 @@
 .App {
-    text-align: center;
-    font-family: Palanquin sans-serif;
+
+  text-align: center;
+  font-family: Palanquin sans-serif;
+  min-height: 100vh;
+
+  .main {
     min-height: 100vh;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .input {
+      margin: 20px 0;
+    }
+  }
+}
+
+a {
+  text-decoration: none;
 }
