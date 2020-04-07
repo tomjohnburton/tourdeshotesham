@@ -20,7 +20,8 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import SubmittedTimePicker from "react-duration-picker";
 
-const server = axios.create({baseURL: "http://localhost:4000"})
+const server = axios.create({baseURL: process.env.BASE_URL})
+console.log(process.env.BASE_URL)
 const marks = [
     {
         value: 1,
