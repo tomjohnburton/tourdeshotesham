@@ -1,17 +1,17 @@
 .App {
 
+  max-width: 500px;
+  margin: 0 auto;
+  height: 100%;
   text-align: center;
   font-family: Palanquin sans-serif;
-  min-height: 100vh;
 
   .main {
-    min-height: 100vh;
   }
 
   .form {
     display: flex;
     flex-direction: column;
-    height: 100%;
 
     .input {
       margin: 20px 0;
@@ -21,4 +21,11 @@
 
 a {
   text-decoration: none;
+}
+
+body {
+  background-image: url("http://shotesham.com/wp-content/gallery/tds-2018/IMGP7992.JPG");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
 }
