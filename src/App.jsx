@@ -109,7 +109,7 @@ function App() {
                 color="primary"
                 style={{background: "white", padding: "20px", borderRadius: "20px"}}
             >
-                <h1>Tour de Shotesham</h1>
+                <h1><i>Pre-Tour</i> de Shotesham</h1>
                 <Switch>
                     <Route path="/" exact>
                         <ButtonGroup size="large">
