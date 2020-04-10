@@ -276,6 +276,7 @@ function App() {
                                 <Divider/>
                                 <br/>
                                 <Button color="primary" variant="contained"
+                                        disabled={gender === "" || name === "" || slot === ""}
                                         type="submit">{loading ?
                                     <CircularProgress/> : "Submit"}</Button>
                                 <br/>
