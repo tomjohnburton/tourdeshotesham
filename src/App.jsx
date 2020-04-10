@@ -281,7 +281,6 @@ function App() {
                                 <Link to="/">
                                     <Button color="secondary">Back</Button>
                                 </Link>
-                                {raceNumber !== null && <div><h3>Your race number is {raceNumber}</h3></div>}
                                 {error && <div><h3>Whoops, something went wrong. Please contact <a
                                     href="mailto:tedburton221@gmail.com">Ted</a> and we will add you to the list</h3>
                                 </div>}
@@ -289,10 +288,12 @@ function App() {
                         </form>
                     </Route>
                     <Route exact to="/slots">
-                        <TableContainer component={Paper}>
+                        {raceNumber !== null && <div><h1>Your race number is {raceNumber}</h1></div>}
+                        <TableContainer component={Paper} style={{maxHeight: "600px"}}>
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell>Name</TableCell>
                                         <TableCell>Race Number</TableCell>
                                         <TableCell>Date</TableCell>
                                         <TableCell>Slot Time</TableCell>
@@ -301,6 +302,7 @@ function App() {
                                 <TableBody>
                                     {allSlots.map((slot, i) => (
                                         <TableRow key={slot.raceNumber}>
+                                            <TableCell>{slot.name}</TableCell>
                                             <TableCell component="th" scope="row">
                                                 {slot.raceNumber}
                                             </TableCell>
