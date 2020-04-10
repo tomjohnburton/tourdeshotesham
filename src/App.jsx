@@ -116,7 +116,7 @@ function App() {
                             <Grid container alignItems="center" justify="center">
                                 <Link to="signup">
                                     <Box component="span" m={1}>
-                                        <Button variant="contained" color="primary">
+                                        <Button variant="contained" color="primary" className="mainButton">
                                             Sign up to race!
                                         </Button>
                                     </Box>
