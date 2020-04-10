@@ -138,23 +138,24 @@ function App() {
             >
                 <h1><i>Pre-Tour</i> de Shotesham</h1>
                 <Switch>
-                    <Route path="/" exact>
+
+                    <Route exact path="/">
                         <ButtonGroup size="large">
                             <Grid container alignItems="center" justify="center">
-                                <Link to="signup">
+                                <Link to="/signup">
                                     <Box component="span" m={1}>
                                         <Button variant="contained" color="primary" className="mainButton">
                                             Sign up to race!
                                         </Button>
                                     </Box>
                                 </Link>
-                                <Link to="submit">
+                                <Link to="/enter">
                                     <Button variant="contained" color="secondary">
                                         Submit your time!
                                     </Button>
 
                                 </Link>
-                                <Link to="slots">
+                                <Link to="/slots">
                                     <Button variant="contained" color="tertiary">
                                         Taken Slots
                                     </Button>
@@ -287,37 +288,7 @@ function App() {
                             </Grid>
                         </form>
                     </Route>
-                    <Route exact to="/slots">
-                        {raceNumber !== null && <div><h1>Your race number is {raceNumber}</h1></div>}
-                        <TableContainer component={Paper} style={{maxHeight: "600px"}}>
-                            <Table aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Race Number</TableCell>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Slot Time</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {allSlots.map((slot, i) => (
-                                        <TableRow key={slot.raceNumber}>
-                                            <TableCell>{slot.name}</TableCell>
-                                            <TableCell component="th" scope="row">
-                                                {slot.raceNumber}
-                                            </TableCell>
-                                            <TableCell>{slot.date}</TableCell>
-                                            <TableCell>{slotsMap[slot.slot]}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <Link to="/">
-                            <Button color="secondary">Back</Button>
-                        </Link>
-                    </Route>
-                    <Route exact to="/submit">
+                    <Route exact path="/enter">
                         <form onSubmit={handleFormUpdate}>
                             <Grid container direction="column" justify="center" alignItems="center">
                                 <br/>
@@ -347,6 +318,36 @@ function App() {
                                 </div>}
                             </Grid>
                         </form>
+                    </Route>
+                    <Route exact path="/slots">
+                        {raceNumber !== null && <div><h1>Your race number is {raceNumber}</h1></div>}
+                        <TableContainer component={Paper} style={{maxHeight: "600px"}}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Race Number</TableCell>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell>Slot Time</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {allSlots.map((slot, i) => (
+                                        <TableRow key={slot.raceNumber}>
+                                            <TableCell>{slot.name}</TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {slot.raceNumber}
+                                            </TableCell>
+                                            <TableCell>{slot.date}</TableCell>
+                                            <TableCell>{slotsMap[slot.slot]}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Link to="/">
+                            <Button color="secondary">Back</Button>
+                        </Link>
                     </Route>
 
                 </Switch>
