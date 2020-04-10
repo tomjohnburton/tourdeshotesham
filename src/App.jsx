@@ -1,9 +1,9 @@
 import 'date-fns'
-import React, {useState,} from 'react';
+import React, {useEffect, useState,} from 'react';
 import './App.scss';
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch, useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -19,6 +19,13 @@ import Slider from "@material-ui/core/Slider";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import SubmittedTimePicker from "react-duration-picker";
+import TableContainer from "@material-ui/core/TableContainer";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import Paper from "@material-ui/core/Paper";
 
 const server = axios.create({baseURL: process.env.REACT_APP_BASE_URL})
 const marks = [
@@ -36,6 +43,15 @@ const marks = [
     },
 ];
 
+const slotsMap = {
+    a: "0800-1000",
+    b: "1000-1200",
+    c: "1200-1400",
+    d: "1400-1600",
+    e: "1600-1800",
+    f: "1800-2000"
+}
+
 function App() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -47,7 +63,18 @@ function App() {
     const [name, setName] = useState("");
     const [ageCategory, setAgeCategory] = useState(1);
     const [raceNumber, setRaceNumber] = useState(null);
+    const [allSlots, setAllSlots] = useState([]);
+    const [showSlots, setShowSlots] = useState(false);
 
+    const history = useHistory()
+    useEffect(() => {
+        server.get("/slot").then((result) => {
+            console.log(result)
+            setAllSlots(result.data.result)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }, [])
     const handleSetSlot = (e) => {
         setSlot(e.target.value)
     }
@@ -66,8 +93,15 @@ function App() {
         server.post("/", data).then((res) => {
             setRaceNumber(res.data.raceNumber)
         }).then(() => {
-            setLoading(false)
-            setError(false)
+            server.get("/slot").then((result) => {
+                console.log(result)
+                setAllSlots(result.data.result)
+                setLoading(false)
+                setError(false)
+                history.push('/slots')
+            }).catch((error) => {
+                console.log(error)
+            })
         }).catch((e) => {
             setLoading(false)
             setError(true)
@@ -119,6 +153,11 @@ function App() {
                                         Submit your time!
                                     </Button>
 
+                                </Link>
+                                <Link to="slots">
+                                    <Button variant="contained" color="tertiary">
+                                        Taken Slots
+                                    </Button>
                                 </Link>
                             </Grid>
                         </ButtonGroup>
@@ -173,6 +212,32 @@ function App() {
                                         <MenuItem value="e">1800-2000</MenuItem>
                                     </Select>
                                 </FormControl>
+                                <Button color="primary" variant="contained" onClick={() => setShowSlots(!showSlots)}>Show
+                                    taken
+                                    Slots</Button>
+                                <br/>
+                                <TableContainer component={Paper} hidden={!showSlots}>
+                                    <Table aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Race Number</TableCell>
+                                                <TableCell>Date</TableCell>
+                                                <TableCell>Slot Time</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {allSlots.map((slot, i) => (
+                                                <TableRow key={slot.raceNumber}>
+                                                    <TableCell component="th" scope="row">
+                                                        {slot.raceNumber}
+                                                    </TableCell>
+                                                    <TableCell>{slot.date}</TableCell>
+                                                    <TableCell>{slotsMap[slot.slot]}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                                 <br/>
                                 <Divider/>
                                 <br/>
@@ -223,7 +288,34 @@ function App() {
                             </Grid>
                         </form>
                     </Route>
-                    <Route to="/submit">
+                    <Route exact to="/slots">
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Race Number</TableCell>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell>Slot Time</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {allSlots.map((slot, i) => (
+                                        <TableRow key={slot.raceNumber}>
+                                            <TableCell component="th" scope="row">
+                                                {slot.raceNumber}
+                                            </TableCell>
+                                            <TableCell>{slot.date}</TableCell>
+                                            <TableCell>{slotsMap[slot.slot]}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Link to="/">
+                            <Button color="secondary">Back</Button>
+                        </Link>
+                    </Route>
+                    <Route exact to="/submit">
                         <form onSubmit={handleFormUpdate}>
                             <Grid container direction="column" justify="center" alignItems="center">
                                 <br/>
@@ -254,6 +346,7 @@ function App() {
                             </Grid>
                         </form>
                     </Route>
+
                 </Switch>
             </Grid>
         </div>
