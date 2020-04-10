@@ -46,17 +46,10 @@ function App() {
     const [gender, setGender] = useState("");
     const [name, setName] = useState("");
     const [ageCategory, setAgeCategory] = useState(1);
-    const [slotTaken, setSlotTaken] = useState(false);
     const [raceNumber, setRaceNumber] = useState(null);
 
     const handleSetSlot = (e) => {
         setSlot(e.target.value)
-        server.post("/slot", {slot: e.target.value, date: selectedDate.toLocaleDateString()})
-            .then(() => {
-                setSlotTaken(false)
-            }).catch(() => {
-            setSlotTaken(true)
-        })
     }
 
     const handleFormSubmit = (e) => {
@@ -153,8 +146,6 @@ function App() {
 
                                         onChange={(e) => {
                                             setSelectedDate(e)
-                                            setSlot("")
-                                            setSlotTaken(false)
                                         }}
                                         KeyboardButtonProps={{
                                             'aria-label': 'change date',
@@ -168,7 +159,6 @@ function App() {
                                     <InputLabel id="demo-simple-select-outlined-label">Time Slot</InputLabel>
                                     <Select
                                         value={slot}
-                                        onClose={() => setSlotTaken(false)}
                                         onChange={(e) => handleSetSlot(e)}
                                         label="Time Slot"
                                     >
@@ -183,7 +173,6 @@ function App() {
                                         <MenuItem value="e">1800-2000</MenuItem>
                                     </Select>
                                 </FormControl>
-                                {slotTaken && <small>Unfortunately this slot is taken</small>}
                                 <br/>
                                 <Divider/>
                                 <br/>
@@ -220,7 +209,7 @@ function App() {
                                 </Container>
                                 <Divider/>
                                 <br/>
-                                <Button disabled={slotTaken} color="primary" variant="contained"
+                                <Button color="primary" variant="contained"
                                         type="submit">{loading ?
                                     <CircularProgress/> : "Submit"}</Button>
                                 <br/>
