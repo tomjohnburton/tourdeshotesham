@@ -176,7 +176,7 @@ function App() {
                                 <br/>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
-                                        maxDate="04/19/2020"
+                                        maxDate="04/26/2020"
                                         minDate="04/11/2020"
                                         margin="normal"
                                         id="date-picker-dialog"
