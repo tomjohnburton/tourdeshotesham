@@ -43,6 +43,12 @@ const marks = [
     },
 ];
 
+const categorys = {
+    1: ">12",
+    2: "12-60",
+    3: "60+"
+}
+
 const slotsMap = {
     a: "0800-1000",
     b: "1000-1200",
@@ -379,7 +385,7 @@ function App() {
                                                 {time.raceNumber}
                                             </TableCell>
                                             <TableCell>{`${time.submittedTime?.minutes ? time.submittedTime.minutes : "-"}m ${time.submittedTime?.seconds ? time.submittedTime.seconds : ""}s`}</TableCell>
-                                            <TableCell>{time.ageCategory}</TableCell>
+                                            <TableCell>{categorys[time.ageCategory]}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
