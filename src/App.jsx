@@ -368,6 +368,7 @@ function App() {
                                         <TableCell>Name</TableCell>
                                         <TableCell>Race Number</TableCell>
                                         <TableCell>Submitted Time</TableCell>
+                                        <TableCell>Age Category</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
