@@ -65,15 +65,19 @@ function App() {
     const [raceNumber, setRaceNumber] = useState(null);
     const [allSlots, setAllSlots] = useState([]);
     const [showSlots, setShowSlots] = useState(false);
-
+    const [times, setTimes] = useState([]);
     const history = useHistory()
+
     useEffect(() => {
         server.get("/slot").then((result) => {
-            console.log(result)
             setAllSlots(result.data.result)
         }).catch((error) => {
             console.log(error)
         })
+        server.get("/times").then((result) => {
+            setTimes(result.data)
+            console.log(result.data)
+        }).catch((error) => console.log(error))
     }, [])
     const handleSetSlot = (e) => {
         setSlot(e.target.value)
@@ -158,6 +162,11 @@ function App() {
                                 <Link to="/slots">
                                     <Button variant="contained" color="tertiary">
                                         Taken Slots
+                                    </Button>
+                                </Link>
+                                <Link to="/leaderboard">
+                                    <Button variant="contained" color="medium">
+                                        Leaderboard
                                     </Button>
                                 </Link>
                             </Grid>
@@ -341,6 +350,34 @@ function App() {
                                             </TableCell>
                                             <TableCell>{slot.date}</TableCell>
                                             <TableCell>{slotsMap[slot.slot]}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Link to="/">
+                            <Button color="secondary">Back</Button>
+                        </Link>
+                    </Route>
+                    <Route exact path="/leaderboard">
+                        {raceNumber !== null && <div><h1>Your race number is {raceNumber}</h1></div>}
+                        <TableContainer component={Paper} style={{maxHeight: "600px"}}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Race Number</TableCell>
+                                        <TableCell>Submitted Time</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {times.map((time, i) => (
+                                        <TableRow key={time.raceNumber}>
+                                            <TableCell>{time.name}</TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {time.raceNumber}
+                                            </TableCell>
+                                            <TableCell>{`${time.submittedTime?.minutes ? time.submittedTime.minutes : "-"}m ${time.submittedTime?.seconds ? time.submittedTime.seconds : ""}s`}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
