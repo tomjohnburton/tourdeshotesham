@@ -384,7 +384,7 @@ function App() {
                                             <TableCell component="th" scope="row">
                                                 {time.raceNumber}
                                             </TableCell>
-                                            <TableCell>{`${time.submittedTime?.minutes ? time.submittedTime.minutes : "-"}m ${time.submittedTime?.seconds ? time.submittedTime.seconds : ""}s`}</TableCell>
+                                            <TableCell>{`${time.submittedTime?.hours ? time.submittedTime.hours : "-"}h ${time.submittedTime?.minutes ? time.submittedTime.minutes : "-"}m ${time.submittedTime?.seconds ? time.submittedTime.seconds : ""}s`}</TableCell>
                                             <TableCell>{categorys[time.ageCategory]}</TableCell>
                                         </TableRow>
                                     ))}
